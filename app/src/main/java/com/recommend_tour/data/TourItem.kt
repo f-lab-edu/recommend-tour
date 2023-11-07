@@ -1,11 +1,12 @@
 package com.recommend_tour.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "tour_list")
-data class TourList(
+@Entity(tableName = "tour_item")
+data class TourItem(
     @PrimaryKey
     @SerializedName("contentid")
     val contentId: String,
