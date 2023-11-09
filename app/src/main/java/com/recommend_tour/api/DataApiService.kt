@@ -1,13 +1,9 @@
 package com.recommend_tour.api
 
-import com.google.gson.GsonBuilder
 import com.recommend_tour.data.ApiResponse
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level
+import com.recommend_tour.data.AreaCodeItems
+import com.recommend_tour.data.TourItems
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -24,7 +20,7 @@ interface DataApiService {
         @Query("MobileApp") mobileApp: String = MOBILE_APP,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("serviceKey") serviceKey: String = SERVICE_KEY,
-    ): ApiResponse
+    ): ApiResponse<TourItems>
 
     @GET("areaBasedList1")
     suspend fun getAreaData(
@@ -34,5 +30,13 @@ interface DataApiService {
         @Query("MobileApp") mobileApp: String = MOBILE_APP,
         @Query("MobileOS") mobileOS: String = "AND",
         @Query("serviceKey") serviceKey: String = SERVICE_KEY,
-    ): ApiResponse
+    ): ApiResponse<TourItems>
+
+    @GET("areaCode1")
+    suspend fun getAreaCode(
+        @Query("_type") type: String = "json",
+        @Query("MobileApp") mobileApp: String = MOBILE_APP,
+        @Query("MobileOS") mobileOS: String = "AND",
+        @Query("serviceKey") serviceKey: String = SERVICE_KEY,
+    ): ApiResponse<AreaCodeItems>
 }

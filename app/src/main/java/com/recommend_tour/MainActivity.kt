@@ -6,11 +6,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.recommend_tour.databinding.ActivityMainBinding
 import com.recommend_tour.service.TourDataUpdateService
@@ -32,13 +31,26 @@ class MainActivity : AppCompatActivity() {
 
         val serviceIntent = Intent(this, TourDataUpdateService::class.java)
         startService(serviceIntent)
+
+        val areaListSpinner = binding.spinner
+        areaListSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedAreaPosition = areaListSpinner.selectedItem.toString()
+                Log.d("MainActivity", "selectedAreaPosition : $selectedAreaPosition")
+
+                viewModel.getTourData(selectedAreaPosition)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Log.d("MainActivity", "spinner Nothing Select")
+            }
+        }
     }
 
     private val receiver = object : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
             if(intent?.action == "tourDataReady"){
-
-                viewModel.updateData()
+                viewModel.getTourData("1")
             }
         }
     }

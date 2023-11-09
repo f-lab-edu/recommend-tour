@@ -2,17 +2,17 @@ package com.recommend_tour.data
 
 import com.google.gson.annotations.SerializedName
 
-data class ApiResponse(
+data class ApiResponse<T>(
     @SerializedName("response")
-    var response: Response? = null
+    var response: Response<T>? = null
 )
 
-data class Response(
+data class Response<T>(
     @SerializedName("header")
     var header: Header? = null,
 
     @SerializedName("body")
-    var body: Body? = null
+    var body: Body<T>? = null
 )
 
 data class Header(
@@ -23,9 +23,9 @@ data class Header(
     var resultMsg: String? = null
 )
 
-data class Body(
+data class Body<T>(
     @SerializedName("items")
-    var items: Items? = null,
+    var items: T? = null,
 
     @SerializedName("numOfRows")
     var numOfRows: Int,
@@ -37,7 +37,12 @@ data class Body(
     var totalCount: Int
 )
 
-data class Items(
+data class TourItems(
     @SerializedName("item")
     var item: List<TourItem>? = null
+)
+
+data class AreaCodeItems(
+    @SerializedName("item")
+    var item: List<AreaItem>? = null
 )

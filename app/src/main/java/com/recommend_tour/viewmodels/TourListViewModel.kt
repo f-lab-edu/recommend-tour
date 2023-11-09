@@ -7,12 +7,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.recommend_tour.data.AppDatabase
-import com.recommend_tour.data.TourItem
 import com.recommend_tour.data.TourRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
@@ -26,6 +22,7 @@ class TourListViewModel @Inject internal constructor(
     val address: LiveData<String>
     val title: LiveData<String>
     val image: MutableLiveData<String?> = MutableLiveData()
+    private var areaCode: String = "1"
 
     init {
         // 각각의 LiveData를 초기화
@@ -33,35 +30,35 @@ class TourListViewModel @Inject internal constructor(
         title = savedStateHandle.getLiveData("title_key")
     }
 
-    private fun getTourData(){
+    fun getTourData(areaName: String){
         viewModelScope.launch {
             try{
-                val tourData = tourRepository.getSeoulItem().asLiveData()
-                savedStateHandle.set(tour_saved_state_key, tourData.value)
+                val areaCode2 = tourRepository.getAreaCode(areaName).collect{areaItem ->
+                    areaCode = areaItem.map { it.code }.joinToString()
 
-                val seoulItems = tourRepository.getSeoulItem().collect{items ->
-                    items.forEach{seoulItem ->
-                        val address = seoulItem.address
-                        val title = seoulItem.title
+                    val tourData = tourRepository.getAreaItem(areaCode).asLiveData()
 
-                        savedStateHandle.set("address_key", seoulItem.address)
-                        savedStateHandle.set("title_key", seoulItem.title)
-                        image.postValue(seoulItem.firstImage)
+                    savedStateHandle[tour_saved_state_key] = tourData.value
 
-                        Log.d("viewModel", "viewModelScope address : $address")
-                        Log.d("viewModel", "viewModelScope title : $title")
-                        Log.d("viewModel", "viewModelScope image : $image")
+                    val areaItems = tourRepository.getAreaItem(areaCode).collect{items ->
+                        items.forEach{areaItem ->
+                            val address = areaItem.address
+                            val title = areaItem.title
+
+                            savedStateHandle["address_key"] = areaItem.address
+                            savedStateHandle["title_key"] = areaItem.title
+                            image.postValue(areaItem.firstImage)
+
+                            Log.d("viewModel", "viewModelScope address : $address")
+                            Log.d("viewModel", "viewModelScope title : $title")
+                            Log.d("viewModel", "viewModelScope image : ${areaItem.firstImage}")
+                        }
                     }
                 }
-
             }catch (e: Exception){
-                Log.d("viewModel", "viewModelScope error")
+                Log.d("viewModel", "viewModelScope error : $e")
             }
         }
-    }
-
-    fun updateData() {
-        getTourData()
     }
 
     companion object{

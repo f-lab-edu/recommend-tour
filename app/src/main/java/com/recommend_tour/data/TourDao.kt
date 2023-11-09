@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -13,13 +12,16 @@ interface TourDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(items: List<TourItem>)
 
-//    @Query("SELECT * FROM tour_item")
-    @Query("SELECT * FROM tour_item LIMIT 100")
-    suspend fun getAll(): List<TourItem>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAreaCode(items: List<AreaItem>)
 
     @Query("SELECT COUNT(*) FROM tour_item")
     suspend fun getItemCount(): Int
 
-    @Query("SELECT * FROM tour_item where siGunGuCode='18' LIMIT 1")
-    fun getSeoulItem(): Flow<List<TourItem>>
+    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND TRIM(firstImage) <> '' ORDER BY RANDOM() LIMIT 1")
+    fun getAreaItem(areaId: String): Flow<List<TourItem>>
+
+    @Query("SELECT * FROM area_item where name= :areaName")
+    fun getAreaCode(areaName: String): Flow<List<AreaItem>>
+
 }
