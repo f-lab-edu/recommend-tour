@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="area_items">
+        <item value="1">서울</item>
+        <item value="2">인천</item>
+        <item value="3">대전</item>
+        <item value="4">대구</item>
+        <item value="5">광주</item>
+        <item value="6">부산</item>
+        <item value="7">울산</item>
+        <item value="8">세종</item>
+        <item value="31">경기도</item>
+        <item value="32">강원도</item>
+    </string-array>
     <color name="black">#FF000000</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

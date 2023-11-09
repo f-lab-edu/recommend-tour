@@ -21,6 +21,7 @@
     <uses-permission android:name="com.recommend_tour.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
+        android:name="com.recommend_tour.MainApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,7 +36,7 @@
         android:theme="@style/Theme.Recommend_tour"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name="com.recommend_tour.MyActivity"
+            android:name="com.recommend_tour.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat" >
@@ -49,7 +50,7 @@
         </activity>
 
         <service
-            android:name="com.recommend_tour.service.ApiService"
+            android:name="com.recommend_tour.service.TourDataUpdateService"
             android:enabled="true"
             android:exported="false" />
 
@@ -169,10 +170,10 @@
             android:exported="false" />
 
         <activity
-            android:name="androidx.compose.ui.tooling.PreviewActivity"
+            android:name="androidx.activity.ComponentActivity"
             android:exported="true" />
         <activity
-            android:name="androidx.activity.ComponentActivity"
+            android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true" />
 
         <receiver

@@ -20,6 +20,6 @@ interface TourDao {
     @Query("SELECT COUNT(*) FROM tour_item")
     suspend fun getItemCount(): Int
 
-    @Query("SELECT * FROM tour_item where siGunGuCode='18'")
-    fun getSeoulItem(): List<TourItem>
+    @Query("SELECT * FROM tour_item where siGunGuCode='18' LIMIT 1")
+    fun getSeoulItem(): Flow<List<TourItem>>
 }

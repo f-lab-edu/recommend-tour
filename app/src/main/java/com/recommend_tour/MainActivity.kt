@@ -5,8 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.recommend_tour.databinding.ActivityMainBinding
 import com.recommend_tour.service.TourDataUpdateService
 import com.recommend_tour.viewmodels.TourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,11 +20,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-//    private val viewModel: TourListViewModel by viewModels()
+    private lateinit var viewModel: TourListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.intro_layout)
+
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        viewModel = ViewModelProvider(this).get(TourListViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         val serviceIntent = Intent(this, TourDataUpdateService::class.java)
         startService(serviceIntent)
@@ -26,15 +36,16 @@ class MainActivity : AppCompatActivity() {
 
     private val receiver = object : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
-            if(intent?.action == "movePageMainLayout"){
-                setContentView(R.layout.main_layout)
+            if(intent?.action == "tourDataReady"){
+
+                viewModel.updateData()
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        val filter = IntentFilter("movePageMainLayout")
+        val filter = IntentFilter("tourDataReady")
         registerReceiver(receiver, filter)
     }
 

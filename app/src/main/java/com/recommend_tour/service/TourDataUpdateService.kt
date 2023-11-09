@@ -66,7 +66,7 @@ class TourDataUpdateService : Service() {
                     getTourItemFromApi()
                 }
             }else{
-                val intent = Intent("movePageMainLayout")
+                val intent = Intent("tourDataReady")
                 sendBroadcast(intent)
             }
         }
@@ -93,7 +93,11 @@ class TourDataUpdateService : Service() {
                     apply()
                 }
 
-                if(++prefPageNumber > lastPageNumber) break
+                if(++prefPageNumber > lastPageNumber) {
+                    val intent = Intent("tourDataReady")
+                    sendBroadcast(intent)
+                    break
+                }
 
             }else{
                 break

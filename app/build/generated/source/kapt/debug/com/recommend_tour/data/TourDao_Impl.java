@@ -11,6 +11,7 @@ import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import java.lang.Class;
 import java.lang.Exception;
+import java.lang.Integer;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -22,24 +23,25 @@ import java.util.concurrent.Callable;
 import javax.annotation.processing.Generated;
 import kotlin.Unit;
 import kotlin.coroutines.Continuation;
+import kotlinx.coroutines.flow.Flow;
 
 @Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
 public final class TourDao_Impl implements TourDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter<TourList> __insertionAdapterOfTourList;
+  private final EntityInsertionAdapter<TourItem> __insertionAdapterOfTourItem;
 
   public TourDao_Impl(RoomDatabase __db) {
     this.__db = __db;
-    this.__insertionAdapterOfTourList = new EntityInsertionAdapter<TourList>(__db) {
+    this.__insertionAdapterOfTourItem = new EntityInsertionAdapter<TourItem>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `tour_list` (`contentId`,`title`,`address`,`address2`,`areaCode`,`bookTour`,`category1`,`category2`,`category3`,`contentTypeId`,`createdTime`,`firstImage`,`firstImage2`,`copyrightDivCode`,`mapX`,`mapY`,`mapLevel`,`modifiedTime`,`siGunGuCode`,`telephone`,`zipCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `tour_item` (`contentId`,`title`,`address`,`address2`,`areaCode`,`bookTour`,`category1`,`category2`,`category3`,`contentTypeId`,`createdTime`,`firstImage`,`firstImage2`,`copyrightDivCode`,`mapX`,`mapY`,`mapLevel`,`modifiedTime`,`siGunGuCode`,`telephone`,`zipCode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
-      public void bind(SupportSQLiteStatement stmt, TourList value) {
+      public void bind(SupportSQLiteStatement stmt, TourItem value) {
         if (value.getContentId() == null) {
           stmt.bindNull(1);
         } else {
@@ -150,14 +152,14 @@ public final class TourDao_Impl implements TourDao {
   }
 
   @Override
-  public Object insertTourList(final TourList[] list,
+  public Object insertAll(final List<TourItem> items,
       final Continuation<? super Unit> continuation) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
         __db.beginTransaction();
         try {
-          __insertionAdapterOfTourList.insert(list);
+          __insertionAdapterOfTourItem.insert(items);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
@@ -168,13 +170,13 @@ public final class TourDao_Impl implements TourDao {
   }
 
   @Override
-  public Object getAllTourList(final Continuation<? super List<TourList>> continuation) {
-    final String _sql = "SELECT * FROM tour_list";
+  public Object getAll(final Continuation<? super List<TourItem>> continuation) {
+    final String _sql = "SELECT * FROM tour_item LIMIT 100";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
-    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<TourList>>() {
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<TourItem>>() {
       @Override
-      public List<TourList> call() throws Exception {
+      public List<TourItem> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
           final int _cursorIndexOfContentId = CursorUtil.getColumnIndexOrThrow(_cursor, "contentId");
@@ -198,9 +200,9 @@ public final class TourDao_Impl implements TourDao {
           final int _cursorIndexOfSiGunGuCode = CursorUtil.getColumnIndexOrThrow(_cursor, "siGunGuCode");
           final int _cursorIndexOfTelephone = CursorUtil.getColumnIndexOrThrow(_cursor, "telephone");
           final int _cursorIndexOfZipCode = CursorUtil.getColumnIndexOrThrow(_cursor, "zipCode");
-          final List<TourList> _result = new ArrayList<TourList>(_cursor.getCount());
+          final List<TourItem> _result = new ArrayList<TourItem>(_cursor.getCount());
           while(_cursor.moveToNext()) {
-            final TourList _item;
+            final TourItem _item;
             final String _tmpContentId;
             if (_cursor.isNull(_cursorIndexOfContentId)) {
               _tmpContentId = null;
@@ -327,7 +329,7 @@ public final class TourDao_Impl implements TourDao {
             } else {
               _tmpZipCode = _cursor.getString(_cursorIndexOfZipCode);
             }
-            _item = new TourList(_tmpContentId,_tmpTitle,_tmpAddress,_tmpAddress2,_tmpAreaCode,_tmpBookTour,_tmpCategory1,_tmpCategory2,_tmpCategory3,_tmpContentTypeId,_tmpCreatedTime,_tmpFirstImage,_tmpFirstImage2,_tmpCopyrightDivCode,_tmpMapX,_tmpMapY,_tmpMapLevel,_tmpModifiedTime,_tmpSiGunGuCode,_tmpTelephone,_tmpZipCode);
+            _item = new TourItem(_tmpContentId,_tmpTitle,_tmpAddress,_tmpAddress2,_tmpAreaCode,_tmpBookTour,_tmpCategory1,_tmpCategory2,_tmpCategory3,_tmpContentTypeId,_tmpCreatedTime,_tmpFirstImage,_tmpFirstImage2,_tmpCopyrightDivCode,_tmpMapX,_tmpMapY,_tmpMapLevel,_tmpModifiedTime,_tmpSiGunGuCode,_tmpTelephone,_tmpZipCode);
             _result.add(_item);
           }
           return _result;
@@ -337,6 +339,212 @@ public final class TourDao_Impl implements TourDao {
         }
       }
     }, continuation);
+  }
+
+  @Override
+  public Object getItemCount(final Continuation<? super Integer> continuation) {
+    final String _sql = "SELECT COUNT(*) FROM tour_item";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<Integer>() {
+      @Override
+      public Integer call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final Integer _result;
+          if(_cursor.moveToFirst()) {
+            final Integer _tmp;
+            if (_cursor.isNull(0)) {
+              _tmp = null;
+            } else {
+              _tmp = _cursor.getInt(0);
+            }
+            _result = _tmp;
+          } else {
+            _result = null;
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, continuation);
+  }
+
+  @Override
+  public Flow<List<TourItem>> getSeoulItem() {
+    final String _sql = "SELECT * FROM tour_item where siGunGuCode='18' LIMIT 1";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    return CoroutinesRoom.createFlow(__db, false, new String[]{"tour_item"}, new Callable<List<TourItem>>() {
+      @Override
+      public List<TourItem> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfContentId = CursorUtil.getColumnIndexOrThrow(_cursor, "contentId");
+          final int _cursorIndexOfTitle = CursorUtil.getColumnIndexOrThrow(_cursor, "title");
+          final int _cursorIndexOfAddress = CursorUtil.getColumnIndexOrThrow(_cursor, "address");
+          final int _cursorIndexOfAddress2 = CursorUtil.getColumnIndexOrThrow(_cursor, "address2");
+          final int _cursorIndexOfAreaCode = CursorUtil.getColumnIndexOrThrow(_cursor, "areaCode");
+          final int _cursorIndexOfBookTour = CursorUtil.getColumnIndexOrThrow(_cursor, "bookTour");
+          final int _cursorIndexOfCategory1 = CursorUtil.getColumnIndexOrThrow(_cursor, "category1");
+          final int _cursorIndexOfCategory2 = CursorUtil.getColumnIndexOrThrow(_cursor, "category2");
+          final int _cursorIndexOfCategory3 = CursorUtil.getColumnIndexOrThrow(_cursor, "category3");
+          final int _cursorIndexOfContentTypeId = CursorUtil.getColumnIndexOrThrow(_cursor, "contentTypeId");
+          final int _cursorIndexOfCreatedTime = CursorUtil.getColumnIndexOrThrow(_cursor, "createdTime");
+          final int _cursorIndexOfFirstImage = CursorUtil.getColumnIndexOrThrow(_cursor, "firstImage");
+          final int _cursorIndexOfFirstImage2 = CursorUtil.getColumnIndexOrThrow(_cursor, "firstImage2");
+          final int _cursorIndexOfCopyrightDivCode = CursorUtil.getColumnIndexOrThrow(_cursor, "copyrightDivCode");
+          final int _cursorIndexOfMapX = CursorUtil.getColumnIndexOrThrow(_cursor, "mapX");
+          final int _cursorIndexOfMapY = CursorUtil.getColumnIndexOrThrow(_cursor, "mapY");
+          final int _cursorIndexOfMapLevel = CursorUtil.getColumnIndexOrThrow(_cursor, "mapLevel");
+          final int _cursorIndexOfModifiedTime = CursorUtil.getColumnIndexOrThrow(_cursor, "modifiedTime");
+          final int _cursorIndexOfSiGunGuCode = CursorUtil.getColumnIndexOrThrow(_cursor, "siGunGuCode");
+          final int _cursorIndexOfTelephone = CursorUtil.getColumnIndexOrThrow(_cursor, "telephone");
+          final int _cursorIndexOfZipCode = CursorUtil.getColumnIndexOrThrow(_cursor, "zipCode");
+          final List<TourItem> _result = new ArrayList<TourItem>(_cursor.getCount());
+          while(_cursor.moveToNext()) {
+            final TourItem _item;
+            final String _tmpContentId;
+            if (_cursor.isNull(_cursorIndexOfContentId)) {
+              _tmpContentId = null;
+            } else {
+              _tmpContentId = _cursor.getString(_cursorIndexOfContentId);
+            }
+            final String _tmpTitle;
+            if (_cursor.isNull(_cursorIndexOfTitle)) {
+              _tmpTitle = null;
+            } else {
+              _tmpTitle = _cursor.getString(_cursorIndexOfTitle);
+            }
+            final String _tmpAddress;
+            if (_cursor.isNull(_cursorIndexOfAddress)) {
+              _tmpAddress = null;
+            } else {
+              _tmpAddress = _cursor.getString(_cursorIndexOfAddress);
+            }
+            final String _tmpAddress2;
+            if (_cursor.isNull(_cursorIndexOfAddress2)) {
+              _tmpAddress2 = null;
+            } else {
+              _tmpAddress2 = _cursor.getString(_cursorIndexOfAddress2);
+            }
+            final String _tmpAreaCode;
+            if (_cursor.isNull(_cursorIndexOfAreaCode)) {
+              _tmpAreaCode = null;
+            } else {
+              _tmpAreaCode = _cursor.getString(_cursorIndexOfAreaCode);
+            }
+            final String _tmpBookTour;
+            if (_cursor.isNull(_cursorIndexOfBookTour)) {
+              _tmpBookTour = null;
+            } else {
+              _tmpBookTour = _cursor.getString(_cursorIndexOfBookTour);
+            }
+            final String _tmpCategory1;
+            if (_cursor.isNull(_cursorIndexOfCategory1)) {
+              _tmpCategory1 = null;
+            } else {
+              _tmpCategory1 = _cursor.getString(_cursorIndexOfCategory1);
+            }
+            final String _tmpCategory2;
+            if (_cursor.isNull(_cursorIndexOfCategory2)) {
+              _tmpCategory2 = null;
+            } else {
+              _tmpCategory2 = _cursor.getString(_cursorIndexOfCategory2);
+            }
+            final String _tmpCategory3;
+            if (_cursor.isNull(_cursorIndexOfCategory3)) {
+              _tmpCategory3 = null;
+            } else {
+              _tmpCategory3 = _cursor.getString(_cursorIndexOfCategory3);
+            }
+            final String _tmpContentTypeId;
+            if (_cursor.isNull(_cursorIndexOfContentTypeId)) {
+              _tmpContentTypeId = null;
+            } else {
+              _tmpContentTypeId = _cursor.getString(_cursorIndexOfContentTypeId);
+            }
+            final String _tmpCreatedTime;
+            if (_cursor.isNull(_cursorIndexOfCreatedTime)) {
+              _tmpCreatedTime = null;
+            } else {
+              _tmpCreatedTime = _cursor.getString(_cursorIndexOfCreatedTime);
+            }
+            final String _tmpFirstImage;
+            if (_cursor.isNull(_cursorIndexOfFirstImage)) {
+              _tmpFirstImage = null;
+            } else {
+              _tmpFirstImage = _cursor.getString(_cursorIndexOfFirstImage);
+            }
+            final String _tmpFirstImage2;
+            if (_cursor.isNull(_cursorIndexOfFirstImage2)) {
+              _tmpFirstImage2 = null;
+            } else {
+              _tmpFirstImage2 = _cursor.getString(_cursorIndexOfFirstImage2);
+            }
+            final String _tmpCopyrightDivCode;
+            if (_cursor.isNull(_cursorIndexOfCopyrightDivCode)) {
+              _tmpCopyrightDivCode = null;
+            } else {
+              _tmpCopyrightDivCode = _cursor.getString(_cursorIndexOfCopyrightDivCode);
+            }
+            final String _tmpMapX;
+            if (_cursor.isNull(_cursorIndexOfMapX)) {
+              _tmpMapX = null;
+            } else {
+              _tmpMapX = _cursor.getString(_cursorIndexOfMapX);
+            }
+            final String _tmpMapY;
+            if (_cursor.isNull(_cursorIndexOfMapY)) {
+              _tmpMapY = null;
+            } else {
+              _tmpMapY = _cursor.getString(_cursorIndexOfMapY);
+            }
+            final String _tmpMapLevel;
+            if (_cursor.isNull(_cursorIndexOfMapLevel)) {
+              _tmpMapLevel = null;
+            } else {
+              _tmpMapLevel = _cursor.getString(_cursorIndexOfMapLevel);
+            }
+            final String _tmpModifiedTime;
+            if (_cursor.isNull(_cursorIndexOfModifiedTime)) {
+              _tmpModifiedTime = null;
+            } else {
+              _tmpModifiedTime = _cursor.getString(_cursorIndexOfModifiedTime);
+            }
+            final String _tmpSiGunGuCode;
+            if (_cursor.isNull(_cursorIndexOfSiGunGuCode)) {
+              _tmpSiGunGuCode = null;
+            } else {
+              _tmpSiGunGuCode = _cursor.getString(_cursorIndexOfSiGunGuCode);
+            }
+            final String _tmpTelephone;
+            if (_cursor.isNull(_cursorIndexOfTelephone)) {
+              _tmpTelephone = null;
+            } else {
+              _tmpTelephone = _cursor.getString(_cursorIndexOfTelephone);
+            }
+            final String _tmpZipCode;
+            if (_cursor.isNull(_cursorIndexOfZipCode)) {
+              _tmpZipCode = null;
+            } else {
+              _tmpZipCode = _cursor.getString(_cursorIndexOfZipCode);
+            }
+            _item = new TourItem(_tmpContentId,_tmpTitle,_tmpAddress,_tmpAddress2,_tmpAreaCode,_tmpBookTour,_tmpCategory1,_tmpCategory2,_tmpCategory3,_tmpContentTypeId,_tmpCreatedTime,_tmpFirstImage,_tmpFirstImage2,_tmpCopyrightDivCode,_tmpMapX,_tmpMapY,_tmpMapLevel,_tmpModifiedTime,_tmpSiGunGuCode,_tmpTelephone,_tmpZipCode);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
   }
 
   public static List<Class<?>> getRequiredConverters() {
