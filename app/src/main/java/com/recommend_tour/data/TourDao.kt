@@ -21,6 +21,9 @@ interface TourDao {
     @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND TRIM(firstImage) <> '' ORDER BY RANDOM() LIMIT 1")
     fun getAreaItem(areaId: String): Flow<List<TourItem>>
 
+    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND TRIM(firstImage) <> '' AND category1 = 'C01' ORDER BY RANDOM() LIMIT 1")
+    fun getAreaPathItem(areaId: String): Flow<List<TourItem>>
+
     @Query("SELECT * FROM area_item where name= :areaName")
     fun getAreaCode(areaName: String): Flow<List<AreaItem>>
 

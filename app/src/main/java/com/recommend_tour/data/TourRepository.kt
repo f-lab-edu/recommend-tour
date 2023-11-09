@@ -8,6 +8,8 @@ class TourRepository @Inject constructor(private val tourDao: TourDao){
 
     fun getAreaItem(areaId: String) = tourDao.getAreaItem(areaId)
 
+    fun getAreaPathItem(areaId: String) = tourDao.getAreaPathItem(areaId)
+
     fun getAreaCode(areaName: String) = tourDao.getAreaCode(areaName)
 
 //    companion object{
