@@ -70,8 +70,7 @@ class TourDataUpdateService : Service() {
                     }
                 }
                 checkTourItemFromApi()
-            }else
-                checkTourItemFromApi()
+            }
         }
     }
 

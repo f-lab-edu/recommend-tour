@@ -15,14 +15,8 @@ interface TourDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAreaCode(items: List<AreaItem>)
 
-    @Query("SELECT COUNT(*) FROM tour_item")
-    suspend fun getItemCount(): Int
-
-    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND TRIM(firstImage) <> '' ORDER BY RANDOM() LIMIT 1")
-    fun getAreaItem(areaId: String): Flow<List<TourItem>>
-
-    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND TRIM(firstImage) <> '' AND category1 = 'C01' ORDER BY RANDOM() LIMIT 1")
-    fun getAreaPathItem(areaId: String): Flow<List<TourItem>>
+    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND contentTypeId = :contentTypeId AND TRIM(firstImage, address) <> '' ORDER BY RANDOM()")
+    fun getAreaItem(areaId: String, contentTypeId: String): Flow<List<TourItem>>
 
     @Query("SELECT * FROM area_item where name= :areaName")
     fun getAreaCode(areaName: String): Flow<List<AreaItem>>

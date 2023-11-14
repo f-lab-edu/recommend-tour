@@ -6,9 +6,7 @@ import javax.inject.Singleton
 @Singleton
 class TourRepository @Inject constructor(private val tourDao: TourDao){
 
-    fun getAreaItem(areaId: String) = tourDao.getAreaItem(areaId)
-
-    fun getAreaPathItem(areaId: String) = tourDao.getAreaPathItem(areaId)
+    fun getAreaItem(areaId: String, contentTypeId: String) = tourDao.getAreaItem(areaId, contentTypeId)
 
     fun getAreaCode(areaName: String) = tourDao.getAreaCode(areaName)
 

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">recommend_tour</string>
+
     <string-array name="area_items">
         <item>서울</item>
         <item>인천</item>
@@ -12,6 +13,29 @@
         <item>경기도</item>
         <item>강원특별자치도</item>
     </string-array>
+
+    <string-array name="contentType_items">
+        <item>관광지</item>
+        <item>문화 시설</item>
+        <item>축제 공연 행사</item>
+        <item>여행 코스</item>
+        <item>레포츠</item>
+        <item>숙박</item>
+        <item>쇼핑</item>
+        <item>음식점</item>
+    </string-array>
+
+    <string-array name="contentType_apiCode">
+        <item>12</item>
+        <item>14</item>
+        <item>15</item>
+        <item>25</item>
+        <item>28</item>
+        <item>32</item>
+        <item>38</item>
+        <item>39</item>
+    </string-array>
+
 
     <string name="address">주소 : %1$s</string>
 </resources>
