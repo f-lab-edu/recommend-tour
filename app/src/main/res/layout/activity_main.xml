@@ -74,7 +74,10 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:background="@drawable/border_background"
-                android:text="map" />
+                android:text="map"
+                android:clickable="true"
+                android:onClick="onMapButtonClick"
+                />
 
             <TextView
                 android:id="@+id/favorites_button"

@@ -40,10 +40,17 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(this, TourDataUpdateService::class.java)
         startService(serviceIntent)
 
-        spinnerEvent(binding.areaSpinner, binding)
-        spinnerEvent(binding.contentTypeSpinner, binding)
+        initSpinner(binding.areaSpinner)
+        initSpinner(binding.contentTypeSpinner)
 
         initViews()
+    }
+
+
+    fun onMapButtonClick(view: View){
+        val intent = Intent(this, MapActivity::class.java)
+
+        startActivity(intent)
     }
 
     /**
@@ -59,7 +66,7 @@ class MainActivity : AppCompatActivity() {
      * 1. spinner의 이벤트 구분 -> 지역 spinner인지? 관광지 spinner인지?
      * 2. 선택한 spinner 변수 값만 변경하여 getTourData로 다시 화면 그리기
      */
-    private fun spinnerEvent(spinner: Spinner, binding: ActivityMainBinding){
+    private fun initSpinner(spinner: Spinner){
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
