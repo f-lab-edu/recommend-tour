@@ -8,12 +8,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 class TourPagingSource (
-    private val tourRepository: TourRepository,
-    private val areaName: String,
-    private val contentTypeApiCode: String
+    private val tourRepository: TourRepository
 ): PagingSource<Int, TourItem>(){
     override fun getRefreshKey(state: PagingState<Int, TourItem>): Int? {
         TODO("getRefreshKey")
+    }
+
+    private var areaName: String = ""
+    private var contentTypeApiCode: String = ""
+
+    fun changeData(newAreaName: String, newCode: String){
+        areaName = newAreaName
+        contentTypeApiCode = newCode
     }
 
     /**
@@ -23,17 +29,28 @@ class TourPagingSource (
      */
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TourItem> {
         try {
+
+            val pageSize = params.loadSize
+            val offset = params.key ?: 0
+
             val areaCode = withContext(Dispatchers.IO) {
                 tourRepository.getAreaCode(areaName).first().map { it.code }.joinToString()
             }
+
             val tourList = withContext(Dispatchers.IO) {
-                tourRepository.getAreaItem(areaCode, contentTypeApiCode).first()
+                tourRepository.getAreaPagingItem(areaCode, contentTypeApiCode, pageSize, offset).first()
+            }
+
+            val nextPage = if (tourList.size < pageSize) {
+                null
+            } else {
+                offset + pageSize
             }
 
             return LoadResult.Page(
                 data = tourList,
-                prevKey = null,
-                nextKey = null
+                prevKey = if (offset == 0) null else offset - pageSize,
+                nextKey = nextPage
             )
         } catch (e: Exception) {
             return LoadResult.Error(e)

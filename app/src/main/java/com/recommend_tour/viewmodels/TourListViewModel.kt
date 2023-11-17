@@ -31,16 +31,15 @@ class TourListViewModel @Inject internal constructor(
      */
 
     private lateinit var pagingData : Flow<PagingData<TourItem>>
-
+    private val pagingSourceFactory = TourPagingSource(tourRepository)
     val adapter = TourPagingAdapter()
 
     fun getTourData(areaName: String, contentTypeApiCode: String) {
-
-        val pagingSourceFactory = { TourPagingSource(tourRepository, areaName, contentTypeApiCode) }
+        pagingSourceFactory.changeData(areaName, contentTypeApiCode)
 
         pagingData = Pager(
-            config = PagingConfig(pageSize = 1),
-            pagingSourceFactory = pagingSourceFactory
+            config = PagingConfig(pageSize = 20, prefetchDistance = 5),
+            pagingSourceFactory = { pagingSourceFactory }
         ).flow
 
         viewModelScope.launch(Dispatchers.IO) {
