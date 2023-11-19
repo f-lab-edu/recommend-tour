@@ -31,11 +31,14 @@ class TourPagingAdapter : PagingDataAdapter<TourItem, TourPagingAdapter.TourItem
         }
     }
 
+    var onItemClick: ((String) -> Unit)? = null
+
     /**
      * 1. 뷰 홀더에서 받은 1개의 리스트의 상세 정보들을 바인딩
      * 2. executePendingBindings : 데이터 바인딩 즉시 실행하여 레이아웃에 변경된 데이터 표시
      */
-    class TourItemViewHolder(private val binding: TourPagingLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TourItemViewHolder(private val binding: TourPagingLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(tourItem: TourItem) {
             binding.tourAddress.text = tourItem.address
             binding.tourTitle.text = tourItem.title
@@ -43,6 +46,10 @@ class TourPagingAdapter : PagingDataAdapter<TourItem, TourPagingAdapter.TourItem
                 .load(tourItem.firstImage)
                 .into(binding.tourImage)
             binding.executePendingBindings()
+
+            binding.root.setOnClickListener{
+                onItemClick?.invoke(tourItem.contentId)
+            }
         }
     }
 
@@ -52,11 +59,11 @@ class TourPagingAdapter : PagingDataAdapter<TourItem, TourPagingAdapter.TourItem
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TourItem>() {
             override fun areItemsTheSame(oldItem: TourItem, newItem: TourItem): Boolean {
-                return oldItem == newItem
+                return oldItem.contentId == newItem.contentId
             }
 
             override fun areContentsTheSame(oldItem: TourItem, newItem: TourItem): Boolean {
-                return oldItem == newItem
+                return oldItem.contentId == newItem.contentId
             }
         }
     }

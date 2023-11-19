@@ -18,7 +18,7 @@ interface TourDao {
     @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND contentTypeId = :contentTypeId AND TRIM(firstImage, address) <> '' ORDER BY RANDOM()")
     fun getAreaItem(areaId: String, contentTypeId: String): Flow<List<TourItem>>
 
-    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND contentTypeId = :contentTypeId AND TRIM(firstImage, address) <> '' ORDER BY RANDOM() LIMIT :pageSize OFFSET :offset")
+    @Query("SELECT * FROM tour_item WHERE areaCode = :areaId AND contentTypeId = :contentTypeId AND TRIM(firstImage, address) <> '' LIMIT :pageSize OFFSET :offset")
     fun getAreaPagingItem(areaId: String, contentTypeId: String, pageSize: Int, offset: Int): Flow<List<TourItem>>
 
     @Query("SELECT * FROM area_item where name= :areaName")
