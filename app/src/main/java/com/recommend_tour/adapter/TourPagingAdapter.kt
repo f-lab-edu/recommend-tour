@@ -31,7 +31,7 @@ class TourPagingAdapter : PagingDataAdapter<TourItem, TourPagingAdapter.TourItem
         }
     }
 
-    var onItemClick: ((String) -> Unit)? = null
+    var onItemClick: ((TourItem) -> Unit)? = null
 
     /**
      * 1. 뷰 홀더에서 받은 1개의 리스트의 상세 정보들을 바인딩
@@ -48,7 +48,7 @@ class TourPagingAdapter : PagingDataAdapter<TourItem, TourPagingAdapter.TourItem
             binding.executePendingBindings()
 
             binding.root.setOnClickListener{
-                onItemClick?.invoke(tourItem.contentId)
+                onItemClick?.invoke(tourItem)
             }
         }
     }

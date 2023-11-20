@@ -2,6 +2,7 @@ package com.recommend_tour
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -26,7 +27,28 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setupWithNavController(navController)
 
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.tourDetailFragment) {
+                supportActionBar?.show()
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            } else {
+                supportActionBar?.hide()
+            }
+        }
+
         val serviceIntent = Intent(this, TourDataUpdateService::class.java)
         startService(serviceIntent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            return navController.popBackStack() || super.onOptionsItemSelected(item)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun setActionBarTitle(title: String?) {
+        supportActionBar?.title = title
     }
 }

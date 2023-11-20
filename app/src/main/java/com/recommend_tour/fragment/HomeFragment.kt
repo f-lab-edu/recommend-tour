@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.recommend_tour.R
 import com.recommend_tour.databinding.ActivityMainBinding
@@ -16,15 +15,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.Spinner
-import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.recommend_tour.databinding.FragmentHomeBinding
-import com.recommend_tour.service.TourDataUpdateService
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,7 +54,12 @@ class HomeFragment : Fragment() {
         initViews()
 
         viewModel.adapter.onItemClick = { contentId ->
-            findNavController().navigate(R.id.tourDetailFragment, bundleOf("contentId" to contentId))
+            val bundle = Bundle().apply {
+                putParcelable("tourItem", contentId)
+            }
+
+            val navOptions = NavOptions.Builder().setPopUpTo(R.id.homeFragment, false).build()
+            findNavController().navigate(R.id.tourDetailFragment, bundle, navOptions)
         }
     }
 
