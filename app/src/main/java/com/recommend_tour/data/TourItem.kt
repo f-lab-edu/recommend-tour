@@ -1,6 +1,7 @@
 package com.recommend_tour.data
 
-import androidx.room.ColumnInfo
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -50,4 +51,67 @@ data class TourItem(
     val telephone: String? = null,
     @SerializedName("zipcode")
     val zipCode: String? = null
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString()?:"",
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(contentId)
+        parcel.writeString(title)
+        parcel.writeString(address)
+        parcel.writeString(address2)
+        parcel.writeString(areaCode)
+        parcel.writeString(bookTour)
+        parcel.writeString(category1)
+        parcel.writeString(category2)
+        parcel.writeString(category3)
+        parcel.writeString(contentTypeId)
+        parcel.writeString(createdTime)
+        parcel.writeString(firstImage)
+        parcel.writeString(firstImage2)
+        parcel.writeString(copyrightDivCode)
+        parcel.writeString(mapX)
+        parcel.writeString(mapY)
+        parcel.writeString(mapLevel)
+        parcel.writeString(modifiedTime)
+        parcel.writeString(siGunGuCode)
+        parcel.writeString(telephone)
+        parcel.writeString(zipCode)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<TourItem> {
+        override fun createFromParcel(parcel: Parcel): TourItem {
+            return TourItem(parcel)
+        }
+
+        override fun newArray(size: Int): Array<TourItem?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

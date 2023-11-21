@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.recommend_tour.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_tourDetailFragment"
+            app:destination="@id/tourDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.recommend_tour.fragment.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.recommend_tour.fragment.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/tourDetailFragment"
+        android:name="com.recommend_tour.fragment.TourDetailFragment"
+        android:label="fragment_tour_detail"
+        tools:layout="@layout/fragment_tour_detail" >
+    </fragment>
+
+<!--    <action-->
+<!--        android:id="@+id/sendContentId"-->
+<!--        app:destination="@id/tourDetailFragment">-->
+<!--    </action>-->
+
+</navigation>

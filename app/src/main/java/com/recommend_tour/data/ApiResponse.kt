@@ -46,3 +46,8 @@ data class AreaCodeItems(
     @SerializedName("item")
     var item: List<AreaItem>? = null
 )
+
+data class TourDetailItems(
+    @SerializedName("item")
+    var item: List<TourDetailItem>? = null
+)

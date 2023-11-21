@@ -1,16 +1,20 @@
 package com.recommend_tour.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.recommend_tour.adapter.TourPagingAdapter
+import com.recommend_tour.data.TourItem
+import com.recommend_tour.data.TourPagingSource
 import com.recommend_tour.data.TourRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,75 +23,34 @@ class TourListViewModel @Inject internal constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val tourAddress: LiveData<String>
-    val tourTitle: LiveData<String>
-    val tourImage: MutableLiveData<String?> = MutableLiveData()
+    /**
+     * 1. adapter : 리사이클러 뷰에 데이터 표시하기 위해 어댑터 호출
+     * 2. TourPagingSource : 페이징 데이터 호출
+     * 3. pager () : 한 항목씩 비동기로 로드
+     * 4. collectLatest, submitData : 업데이트 된 데이터 화면에 표시
+     */
 
-    val pathAddress: LiveData<String>
-    val pathTitle: LiveData<String>
-    val pathImage: MutableLiveData<String?> = MutableLiveData()
+    private lateinit var pagingData : Flow<PagingData<TourItem>>
+    private val pagingSourceFactory = TourPagingSource(tourRepository)
+    val adapter = TourPagingAdapter()
 
-    private var areaCode: String = "1"
+    fun getTourData(areaName: String, contentTypeApiCode: String) {
+        pagingSourceFactory.changeData(areaName, contentTypeApiCode)
 
-    init {
-        // 각각의 LiveData를 초기화
-        tourAddress = savedStateHandle.getLiveData("tour_address_key")
-        tourTitle = savedStateHandle.getLiveData("tour_title_key")
+        pagingData = Pager(
+            config = PagingConfig(pageSize = 20, prefetchDistance = 5),
+            pagingSourceFactory = { pagingSourceFactory }
+        ).flow
 
-        pathAddress = savedStateHandle.getLiveData("path_address_key")
-        pathTitle = savedStateHandle.getLiveData("path_title_key")
-    }
-
-    fun getTourData(areaName: String){
-        viewModelScope.launch {
-            try{
-                val getAreaCode = tourRepository.getAreaCode(areaName).collect{areaItem ->
-                    areaCode = areaItem.map { it.code }.joinToString()
-
-                    val tourData = tourRepository.getAreaItem(areaCode).asLiveData()
-
-                    savedStateHandle[tour_saved_state_key] = tourData.value
-
-                    val areaItems = tourRepository.getAreaItem(areaCode).collect{items ->
-                        Log.d("viewModel", "viewModelScope item collect !! ")
-                        items.forEach{areaItem ->
-                            val address = areaItem.address
-                            val title = areaItem.title
-
-                            savedStateHandle["tour_address_key"] = areaItem.address
-                            savedStateHandle["tour_title_key"] = areaItem.title
-                            tourImage.postValue(areaItem.firstImage)
-
-                            Log.d("viewModel", "viewModelScope address : $address")
-                            Log.d("viewModel", "viewModelScope title : $title")
-                            Log.d("viewModel", "viewModelScope image : ${areaItem.firstImage}")
-                        }
-                    }
-
-
-                    val areaPathItems = tourRepository.getAreaPathItem(areaCode).collect{items ->
-                        Log.d("viewModel", "viewModelScope path collect !! ")
-                        items.forEach{areaPathItem ->
-                            val address = areaPathItem.address
-                            val title = areaPathItem.title
-
-                            savedStateHandle["path_address_key"] = areaPathItem.address
-                            savedStateHandle["path_title_key"] = areaPathItem.title
-                            pathImage.postValue(areaPathItem.firstImage)
-
-                            Log.d("viewModel", "viewModelScope path address : $address")
-                            Log.d("viewModel", "viewModelScope path title : $title")
-                            Log.d("viewModel", "viewModelScope path image : ${areaPathItem.firstImage}")
-                        }
-                    }
-                }
-            }catch (e: Exception){
-                Log.d("viewModel", "viewModelScope error : $e")
+        viewModelScope.launch(Dispatchers.IO) {
+            pagingData.collectLatest { pagingData ->
+                adapter.submitData(pagingData)
+//                savedStateHandle.set("pagingData", pagingData)
             }
         }
     }
 
-    companion object{
-        private const val tour_saved_state_key = "tour_key"
+    fun getPagingData(): PagingData<TourItem>? {
+        return savedStateHandle.get<PagingData<TourItem>>("pagingData")
     }
 }
