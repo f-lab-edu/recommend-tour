@@ -108,17 +108,16 @@ class TourDataUpdateService : Service() {
 
                 tourDao.insertAll(tourItems)
 
+                val intent = Intent("tourDataReady")
+                sendBroadcast(intent)
+
                 with(sharedPref.edit()){
                     putInt("lastSaveTotalCount", totalCount)
                     putInt("lastSavePageNumber", prefPageNumber)
                     apply()
                 }
 
-                if(++prefPageNumber > lastPageNumber) {
-                    val intent = Intent("tourDataReady")
-                    sendBroadcast(intent)
-                    break
-                }
+                if(++prefPageNumber > lastPageNumber) break
 
             }else{
                 break
