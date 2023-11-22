@@ -1,71 +1,29 @@
 package com.recommend_tour.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "tour_detail_item")
-data class TourDetailItem(
-    @PrimaryKey
+open class IntroductionItem(
     @SerializedName("contentid")
-    val contentId: String,
+    val contentId: String? = null,
     @SerializedName("contenttypeid")
-    val contenttypeid: String,
-    @SerializedName("chkcreditcardculture") val chkcreditcardculture: String? = null,
-    @SerializedName("scaleleports") val scaleleports: String? = null,
-    @SerializedName("usefeeleports") val usefeeleports: String? = null,
-    @SerializedName("discountinfofestival") val discountinfofestival: String? = null,
-    @SerializedName("chkcreditcardfood") val chkcreditcardfood: String? = null,
-    @SerializedName("eventenddate") val eventenddate: String? = null,
-    @SerializedName("playtime") val playtime: String? = null,
-    @SerializedName("chkbabycarriageculture") val chkbabycarriageculture: String? = null,
-    @SerializedName("roomcount") val roomcount: String? = null,
-    @SerializedName("reservationlodging") val reservationlodging: String? = null,
-    @SerializedName("reservationurl") val reservationurl: String? = null,
-    @SerializedName("roomtype") val roomtype: String? = null,
-    @SerializedName("scalelodging") val scalelodging: String? = null,
-    @SerializedName("subfacility") val subfacility: String? = null,
-    @SerializedName("barbecue") val barbecue: String? = null,
-    @SerializedName("beauty") val beauty: String? = null,
-    @SerializedName("beverage") val beverage: String? = null,
-    @SerializedName("bicycle") val bicycle: String? = null,
-    @SerializedName("campfire") val campfire: String? = null,
-    @SerializedName("fitness") val fitness: String? = null,
-    @SerializedName("placeinfo") val placeinfo: String? = null,
-    @SerializedName("parkinglodging") val parkinglodging: String? = null,
-    @SerializedName("pickup") val pickup: String? = null,
-    @SerializedName("publicbath") val publicbath: String? = null,
-    @SerializedName("opendate") val opendate: String? = null,
-    @SerializedName("parking") val parking: String? = null,
-    @SerializedName("restdate") val restdate: String? = null,
-    @SerializedName("usetimeleports") val usetimeleports: String? = null,
-    @SerializedName("foodplace") val foodplace: String? = null,
-    @SerializedName("goodstay") val goodstay: String? = null,
-    @SerializedName("hanok") val hanok: String? = null,
-    @SerializedName("infocenterlodging") val infocenterlodging: String? = null,
-    @SerializedName("eventhomepage") val eventhomepage: String? = null,
-    @SerializedName("eventplace") val eventplace: String? = null,
-    @SerializedName("parkingleports") val parkingleports: String? = null,
-    @SerializedName("reservation") val reservation: String? = null,
-    @SerializedName("restdateleports") val restdateleports: String? = null,
-    @SerializedName("eventstartdate") val eventstartdate: String? = null,
-    @SerializedName("festivalgrade") val festivalgrade: String? = null,
-    @SerializedName("karaoke") val karaoke: String? = null,
-    @SerializedName("discountinfofood") val discountinfofood: String? = null,
-    @SerializedName("firstmenu") val firstmenu: String? = null,
-    @SerializedName("infocenterfood") val infocenterfood: String? = null,
-    @SerializedName("kidsfacility") val kidsfacility: String? = null,
-    @SerializedName("opendatefood") val opendatefood: String? = null,
-    @SerializedName("opentimefood") val opentimefood: String? = null,
-    @SerializedName("packing") val packing: String? = null,
-    @SerializedName("parkingfood") val parkingfood: String? = null,
-    @SerializedName("reservationfood") val reservationfood: String? = null,
-    @SerializedName("restdatefood") val restdatefood: String? = null,
-    @SerializedName("scalefood") val scalefood: String? = null,
-    @SerializedName("seat") val seat: String? = null,
-    @SerializedName("smoking") val smoking: String? = null,
-    @SerializedName("treatmenu") val treatmenu: String? = null,
-    @SerializedName("lcnsno") val lcnsno: String? = null,
+    val contenttypeid: String? = null,
+)
+
+/**
+ * SERVER
+ * -> JSON STRING
+ * -> STRING -> JSON ELEMENT key value string map MAP<STRING, STRING>
+ *     {
+ *        contentId: "1234"
+ *        contenttypeid: "12"
+ *       chkcreditcard : ~~
+ *       chkpet: ~~
+ *     }
+ * -> IntroductionItem ¿©±â¼­ reflection.
+ * -> TourDetailIntroduction("1234", "12", "~~", "~~")
+ */
+
+class TourDetailIntroduction(
     @SerializedName("accomcount") val accomcount: String? = null,
     @SerializedName("chkbabycarriage") val chkbabycarriage: String? = null,
     @SerializedName("chkcreditcard") val chkcreditcard: String? = null,
@@ -76,208 +34,178 @@ data class TourDetailItem(
     @SerializedName("heritage2") val heritage2: String? = null,
     @SerializedName("heritage3") val heritage3: String? = null,
     @SerializedName("infocenter") val infocenter: String? = null,
-    @SerializedName("taketime") val taketime: String? = null,
-    @SerializedName("theme") val theme: String? = null,
-    @SerializedName("accomcountleports") val accomcountleports: String? = null,
-    @SerializedName("chkbabycarriageleports") val chkbabycarriageleports: String? = null,
-    @SerializedName("chkcreditcardleports") val chkcreditcardleports: String? = null,
-    @SerializedName("chkpetleports") val chkpetleports: String? = null,
-    @SerializedName("expagerangeleports") val expagerangeleports: String? = null,
-    @SerializedName("infocenterleports") val infocenterleports: String? = null,
-    @SerializedName("openperiod") val openperiod: String? = null,
-    @SerializedName("parkingfeeleports") val parkingfeeleports: String? = null,
-    @SerializedName("program") val program: String? = null,
-    @SerializedName("spendtimefestival") val spendtimefestival: String?= null,
-    @SerializedName("sponsor1") val sponsor1: String? = null,
-    @SerializedName("sponsor1tel") val sponsor1tel: String? = null,
-    @SerializedName("chkpetculture") val chkpetculture: String? = null,
-    @SerializedName("discountinfo") val discountinfo: String? = null,
-    @SerializedName("infocenterculture") val infocenterculture: String? = null,
-    @SerializedName("parkingculture") val parkingculture: String? = null,
-    @SerializedName("parkingfee") val parkingfee: String? = null,
-    @SerializedName("restdateculture") val restdateculture: String? = null,
-    @SerializedName("usefee") val usefee: String? = null,
-    @SerializedName("usetimeculture") val usetimeculture: String? = null,
-    @SerializedName("scale") val scale: String? = null,
-    @SerializedName("spendtime") val spendtime: String? = null,
-    @SerializedName("agelimit") val agelimit: String? = null,
-    @SerializedName("bookingplace") val bookingplace: String? = null,
-    @SerializedName("useseason") val useseason: String? = null,
-    @SerializedName("usetime") val usetime: String? = null,
-    @SerializedName("accomcountculture") val accomcountculture: String? = null,
-    @SerializedName("sponsor2") val sponsor2: String? = null,
-    @SerializedName("sponsor2tel") val sponsor2tel: String? = null,
-    @SerializedName("subevent") val subevent: String? = null,
-    @SerializedName("usetimefestival") val usetimefestival: String? = null,
-    @SerializedName("distance") val distance: String? = null,
-    @SerializedName("infocentertourcourse") val infocentertourcourse: String? = null,
-    @SerializedName("schedule") val schedule: String? = null,
-    @SerializedName("publicpc") val publicpc: String? = null,
-    @SerializedName("sauna") val sauna: String? = null,
-    @SerializedName("seminar") val seminar: String? = null,
-    @SerializedName("sports") val sports: String? = null,
-    @SerializedName("refundregulation") val refundregulation: String? = null,
-    @SerializedName("chkbabycarriageshopping") val chkbabycarriageshopping: String? = null,
-    @SerializedName("chkcreditcardshopping") val chkcreditcardshopping: String? = null,
-    @SerializedName("chkpetshopping") val chkpetshopping: String? = null,
-    @SerializedName("culturecenter") val culturecenter: String? = null,
-    @SerializedName("fairday") val fairday: String? = null,
-    @SerializedName("infocentershopping") val infocentershopping: String? = null,
-    @SerializedName("opendateshopping") val opendateshopping: String? = null,
-    @SerializedName("opentime") val opentime: String? = null,
-    @SerializedName("parkingshopping") val parkingshopping: String? = null,
-    @SerializedName("restdateshopping") val restdateshopping: String? = null,
-    @SerializedName("restroom") val restroom: String? = null,
-    @SerializedName("saleitem") val saleitem: String? = null,
-    @SerializedName("saleitemcost") val saleitemcost: String? = null,
-    @SerializedName("scaleshopping") val scaleshopping: String? = null,
-    @SerializedName("shopguide") val shopguide: String? = null,
-    @SerializedName("checkintime") val checkintime: String? = null,
-    @SerializedName("checkouttime") val checkouttime: String? = null,
-    @SerializedName("chkcooking") val chkcooking: String? = null,
-    @SerializedName("accomcountlodging") val accomcountlodging: String? = null,
-    @SerializedName("benikia") val benikia: String? = null
+    @SerializedName("opendate") val opendate: String? = null,
+    contentId: String?,
+    contenttypeid: String?,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
 )
 
-fun itemFilter(apiItem: List<TourDetailItem>): List<TourDetailItem> {
-    val nonNullTourDetailItems: List<TourDetailItem> = apiItem
-        .filter { item ->
-            item.contenttypeid != null && item.chkcreditcardculture != null && item.scaleleports != null && item.usefeeleports != null && item.discountinfofestival != null && item.chkcreditcardfood != null && item.eventenddate != null && item.playtime != null && item.chkbabycarriageculture != null && item.roomcount != null && item.reservationlodging != null && item.reservationurl != null && item.roomtype != null && item.scalelodging != null && item.subfacility != null && item.barbecue != null && item.beauty != null && item.beverage != null && item.bicycle != null && item.campfire != null && item.fitness != null && item.placeinfo != null && item.parkinglodging != null && item.pickup != null && item.publicbath != null && item.opendate != null && item.parking != null && item.restdate != null && item.usetimeleports != null && item.foodplace != null && item.goodstay != null && item.hanok != null && item.infocenterlodging != null && item.eventhomepage != null && item.eventplace != null && item.parkingleports != null && item.reservation != null && item.restdateleports != null && item.eventstartdate != null && item.festivalgrade != null && item.karaoke != null && item.discountinfofood != null && item.firstmenu != null && item.infocenterfood != null && item.kidsfacility != null && item.opendatefood != null && item.opentimefood != null && item.packing != null && item.parkingfood != null && item.reservationfood != null && item.restdatefood != null && item.scalefood != null && item.seat != null && item.smoking != null && item.treatmenu != null && item.lcnsno != null && item.accomcount != null && item.chkbabycarriage != null && item.chkcreditcard != null && item.chkpet != null && item.expagerange != null && item.expguide != null && item.heritage1 != null && item.heritage2 != null && item.heritage3 != null && item.infocenter != null && item.taketime != null && item.theme != null && item.accomcountleports != null && item.chkbabycarriageleports != null && item.chkcreditcardleports != null && item.chkpetleports != null && item.expagerangeleports != null && item.infocenterleports != null && item.openperiod != null && item.parkingfeeleports != null && item.program != null && item.spendtimefestival != null && item.sponsor1 != null && item.sponsor1tel != null && item.chkpetculture != null && item.discountinfo != null && item.infocenterculture != null && item.parkingculture != null && item.parkingfee != null && item.restdateculture != null && item.usefee != null && item.usetimeculture != null && item.scale != null && item.spendtime != null && item.agelimit != null && item.bookingplace != null && item.useseason != null && item.usetime != null && item.accomcountculture != null && item.sponsor2 != null && item.sponsor2tel != null && item.subevent != null && item.usetimefestival != null && item.distance != null && item.infocentertourcourse != null && item.schedule != null && item.publicpc != null && item.sauna != null && item.seminar != null && item.sports != null && item.refundregulation != null && item.chkbabycarriageshopping != null && item.chkcreditcardshopping != null && item.chkpetshopping != null && item.culturecenter != null && item.fairday != null && item.infocentershopping != null && item.opendateshopping != null && item.opentime != null && item.parkingshopping != null && item.restdateshopping != null && item.restroom != null && item.saleitem != null && item.saleitemcost != null && item.scaleshopping != null && item.shopguide != null && item.checkintime != null && item.checkouttime != null && item.chkcooking != null && item.accomcountlodging != null && item.benikia != null
-        }
-    return nonNullTourDetailItems
-}
+class CulturalIntroduction(
+    val accomcountculture: String?,
+    val chkbabycarriageculture: String?,
+    val chkcreditcardculture: String?,
+    val chkpetculture: String?,
+    val discountinfo: String?,
+    val infocenterculture: String?,
+    val parkingculture: String?,
+    val parkingfee: String?,
+    val restdateculture: String?,
+    val usefee: String?,
+    val usetimeculture: String?,
+    val scale: String?,
+    val spendtime: String?,
+    contentId: String?,
+    contenttypeid: String?,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)
 
-//val tourItems: List<TourItem?>? = body?.items?.item
-//
-//val nonNullTourDetailItems: List<TourDetailItem> = TourDetailItem
-//    .filterNotNull()
-//    .filter { item ->
-//        item.contentId != null &&
-//                item.contenttypeid != null &&
-//                item.chkcreditcardculture != null &&
-//                item.scaleleports != null &&
-//                item.usefeeleports != null &&
-//                item.discountinfofestival != null &&
-//                item.chkcreditcardfood != null &&
-//                item.eventenddate != null &&
-//                item.playtime != null &&
-//                item.chkbabycarriageculture != null &&
-//                item.roomcount != null &&
-//                item.reservationlodging != null &&
-//                item.reservationurl != null &&
-//                item.roomtype != null &&
-//                item.scalelodging != null &&
-//                item.subfacility != null &&
-//                item.barbecue != null &&
-//                item.beauty != null &&
-//                item.beverage != null &&
-//                item.bicycle != null &&
-//                item.campfire != null &&
-//                item.fitness != null &&
-//                item.placeinfo != null &&
-//                item.parkinglodging != null &&
-//                item.pickup != null &&
-//                item.publicbath != null &&
-//                item.opendate != null &&
-//                item.parking != null &&
-//                item.restdate != null &&
-//                item.usetimeleports != null &&
-//                item.foodplace != null &&
-//                item.goodstay != null &&
-//                item.hanok != null &&
-//                item.infocenterlodging != null &&
-//                item.eventhomepage != null &&
-//                item.eventplace != null &&
-//                item.parkingleports != null &&
-//                item.reservation != null &&
-//                item.restdateleports != null &&
-//                item.eventstartdate != null &&
-//                item.festivalgrade != null &&
-//                item.karaoke != null &&
-//                item.discountinfofood != null &&
-//                item.firstmenu != null &&
-//                item.infocenterfood != null &&
-//                item.kidsfacility != null &&
-//                item.opendatefood != null &&
-//                item.opentimefood != null &&
-//                item.packing != null &&
-//                item.parkingfood != null &&
-//                item.reservationfood != null &&
-//                item.restdatefood != null &&
-//                item.scalefood != null &&
-//                item.seat != null &&
-//                item.smoking != null &&
-//                item.treatmenu != null &&
-//                item.lcnsno != null &&
-//                item.accomcount != null &&
-//                item.chkbabycarriage != null &&
-//                item.chkcreditcard != null &&
-//                item.chkpet != null &&
-//                item.expagerange != null &&
-//                item.expguide != null &&
-//                item.heritage1 != null &&
-//                item.heritage2 != null &&
-//                item.heritage3 != null &&
-//                item.infocenter != null &&
-//                item.taketime != null &&
-//                item.theme != null &&
-//                item.accomcountleports != null &&
-//                item.chkbabycarriageleports != null &&
-//                item.chkcreditcardleports != null &&
-//                item.chkpetleports != null &&
-//                item.expagerangeleports != null &&
-//                item.infocenterleports != null &&
-//                item.openperiod != null &&
-//                item.parkingfeeleports != null &&
-//                item.program != null &&
-//                item.spendtimefestival != null &&
-//                item.sponsor1 != null &&
-//                item.sponsor1tel != null &&
-//                item.chkpetculture != null &&
-//                item.discountinfo != null &&
-//                item.infocenterculture != null &&
-//                item.parkingculture != null &&
-//                item.parkingfee != null &&
-//                item.restdateculture != null &&
-//                item.usefee != null &&
-//                item.usetimeculture != null &&
-//                item.scale != null &&
-//                item.spendtime != null &&
-//                item.agelimit != null &&
-//                item.bookingplace != null &&
-//                item.useseason != null &&
-//                item.usetime != null &&
-//                item.accomcountculture != null &&
-//                item.sponsor2 != null &&
-//                item.sponsor2tel != null &&
-//                item.subevent != null &&
-//                item.usetimefestival != null &&
-//                item.distance != null &&
-//                item.infocentertourcourse != null &&
-//                item.schedule != null &&
-//                item.publicpc != null &&
-//                item.sauna != null &&
-//                item.seminar != null &&
-//                item.sports != null &&
-//                item.refundregulation != null &&
-//                item.chkbabycarriageshopping != null &&
-//                item.chkcreditcardshopping != null &&
-//                item.chkpetshopping != null &&
-//                item.culturecenter != null &&
-//                item.fairday != null &&
-//                item.infocentershopping != null &&
-//                item.opendateshopping != null &&
-//                item.opentime != null &&
-//                item.parkingshopping != null &&
-//                item.restdateshopping != null &&
-//                item.restroom != null &&
-//                item.saleitem != null &&
-//                item.saleitemcost != null &&
-//                item.scaleshopping != null &&
-//                item.shopguide != null &&
-//                item.checkintime != null &&
-//                item.checkouttime != null &&
-//                item.chkcooking != null &&
-//                item.accomcountlodging != null &&
-//                item.benikia != null
-//    } ?: emptyList()
+class FestivalIntroduction(
+    val agelimit: String? = null,
+    val bookingplace: String? = null,
+    val discountinfofestival: String? = null,
+    val eventenddate: String? = null,
+    val eventhomepage: String? = null,
+    val eventplace: String? = null,
+    val eventstartdate: String? = null,
+    val festivalgrade: String? = null,
+    val placeinfo: String? = null,
+    val playtime: String? = null,
+    val program: String? = null,
+    val spendtimefestival: String? = null,
+    val sponsor1: String? = null,
+    val sponsor1tel: String? = null,
+    val sponsor2: String? = null,
+    val sponsor2tel: String? = null,
+    val subevent: String? = null,
+    val usetimefestival: String? = null,
+    contentId: String? = null,
+    contenttypeid: String? = null,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)
+
+class TourCourseIntroduction(
+    val distance: String? = null,
+    val infocentertourcourse: String? = null,
+    val schedule: String? = null,
+    val taketime: String? = null,
+    val theme: String? = null,
+    contentId: String? = null,
+    contenttypeid: String? = null,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)
+
+class LeisureIntroduction(
+    val accomcountleports: String? = null,
+    val chkbabycarriageleports: String? = null,
+    val chkcreditcardleports: String? = null,
+    val chkpetleports: String? = null,
+    val expagerangeleports: String? = null,
+    val infocenterleports: String? = null,
+    val openperiod: String? = null,
+    val parkingfeeleports: String? = null,
+    val parkingleports: String? = null,
+    val reservation: String? = null,
+    val restdateleports: String? = null,
+    val scaleleports: String? = null,
+    val usefeeleports: String? = null,
+    val usetimeleports: String? = null,
+    contentId: String? = null,
+    contenttypeid: String? = null,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)
+
+class LodgingIntroduction(
+    val accomcountlodging: String? = null,
+    val benikia: String? = null,
+    val checkintime: String? = null,
+    val checkouttime: String? = null,
+    val chkcooking: String? = null,
+    val foodplace: String? = null,
+    val goodstay: String? = null,
+    val hanok: String? = null,
+    val infocenterlodging: String? = null,
+    val parkinglodging: String? = null,
+    val pickup: String? = null,
+    val roomcount: String? = null,
+    val reservationlodging: String? = null,
+    val reservationurl: String? = null,
+    val roomtype: String? = null,
+    val scalelodging: String? = null,
+    val subfacility: String? = null,
+    val barbecue: String? = null,
+    val beauty: String? = null,
+    val beverage: String? = null,
+    val bicycle: String? = null,
+    val campfire: String? = null,
+    val fitness: String? = null,
+    val karaoke: String? = null,
+    val publicbath: String? = null,
+    val publicpc: String? = null,
+    val sauna: String? = null,
+    val seminar: String? = null,
+    val sports: String? = null,
+    val refundregulation: String? = null,
+    contentId: String? = null,
+    contenttypeid: String? = null,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)
+
+class ShoppingIntroduction(
+    val chkbabycarriageshoppin: String? = null,
+    val chkcreditcar: String? = null,
+    val shopping: String? = null,
+    val chkpetshoppin: String? = null,
+    val culturecente: String? = null,
+    val fairda: String? = null,
+    val infocentershoppin: String? = null,
+    val opendateshoppin: String? = null,
+    val opentim: String? = null,
+    val parkingshoppin: String? = null,
+    val restdateshoppin: String? = null,
+    val restroo: String? = null,
+    val saleite: String? = null,
+    val saleitemcos: String? = null,
+    val scaleshoppin: String? = null,
+    val shopguid: String? = null,
+    contentId: String,
+    contenttypeid: String,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)
+
+class FoodIntroduction(
+    val chkcreditcardfood: String? = null,
+    val discountinfofood: String? = null,
+    val firstmenu: String? = null,
+    val infocenterfood: String? = null,
+    val kidsfacility: String? = null,
+    val opendatefood: String? = null,
+    val opentimefood: String? = null,
+    val packing: String? = null,
+    val parkingfood: String? = null,
+    val reservationfood: String? = null,
+    val restdatefood: String? = null,
+    val scalefood: String? = null,
+    val seat: String? = null,
+    val smoking: String? = null,
+    val treatmenu: String? = null,
+    val lcnsno: String? = null,
+    contentId: String,
+    contenttypeid: String,
+) : IntroductionItem(
+    contentId,
+    contenttypeid
+)

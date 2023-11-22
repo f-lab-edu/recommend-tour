@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.recommend_tour.MainActivity
 import com.recommend_tour.R
 import com.recommend_tour.api.DataApiService
+import com.recommend_tour.data.FestivalIntroduction
+import com.recommend_tour.data.LeisureIntroduction
+import com.recommend_tour.data.TourDetailIntroduction
 import com.recommend_tour.data.TourItem
-import com.recommend_tour.data.itemFilter
 import com.recommend_tour.databinding.FragmentTourDetailBinding
 import com.recommend_tour.viewmodels.TourListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +26,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+class TourDetailViewModel(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+}
 
 @AndroidEntryPoint
 class TourDetailFragment : Fragment() {
@@ -52,14 +61,30 @@ class TourDetailFragment : Fragment() {
         }
     }
 
-    private suspend fun getTourDetailItem(tourItem: TourItem){
-
+    private suspend fun getTourDetailItem(tourItem: TourItem) {
         val response = apiClient.getTourDetailItem(tourItem.contentId, tourItem.contentTypeId!!)
         val apiResultCode = response.response?.header?.resultCode
         val body = response.response?.body
 
-        if(apiResultCode == "0000"){
-            val totalCount : Int = response.response?.body?.totalCount ?: 0
+        if (apiResultCode == "0000") {
+            body?.items?.item?.forEach {
+                when (it) {
+                    is FestivalIntroduction -> {
+
+                    }
+
+                    is TourDetailIntroduction -> {
+                        /**
+                         * setup for tour detail view
+                         */
+                    }
+
+                    is LeisureIntroduction -> {
+
+                    }
+                }
+            }
+            val totalCount: Int = response.response?.body?.totalCount ?: 0
             val tourItems = body?.items?.item
 
             val test = listOf(body?.items?.item)
@@ -67,8 +92,8 @@ class TourDetailFragment : Fragment() {
             Log.d("itemFilter", "itemFilter : $test")
             Log.d("itemFilter", "itemFilter : $test2")
 
-            val test3 = itemFilter(body?.items?.item!!)
-            Log.d("itemFilter", "itemFilter : $test3")
+//            val test3 = itemFilter(body?.items?.item!!)
+//            Log.d("itemFilter", "itemFilter : $test3")
 
             val gson = Gson()
             val json2 = gson.toJson(tourItems)
